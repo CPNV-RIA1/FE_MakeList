@@ -1,6 +1,25 @@
 {
+	"name": "fe_makelist",
+	"version": "1.0.0",
+	"description": "This project helps people create tier lists easily on mobile or desktop",
+	"main": "src/index.js",
+	"scripts": {
+		"test": "jest",
+		"dev": "set NODE_ENV=DEVELOPMENT && node src/index.js",
+		"prod": "set NODE_ENV=PRODUCTION  && node src/index.js"
+	},
 	"dependencies": {
 		"tailwindcss": "^4.0.9",
 		"@tailwindcss/cli": "^4.0.9"
-	}
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/CPNV-RIA1/FE_MakeList.git"
+	},
+	"author": "arthur.bottemanne@eduvaud.ch, guillaume.aubert@eduvaud.ch",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/CPNV-RIA1/FE_MakeList/issues"
+	},
+	"homepage": "https://github.com/CPNV-RIA1/FE_MakeList#readme"
 }

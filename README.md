@@ -8,20 +8,16 @@ This project helps people create tier lists easily on mobile or desktop
 
 ### Prerequisites
 
-* MySql: MySQL Server 8.0.41
 * Visual Studio Code
 * pnpm: 10.5.2
+* node: v22.13.1
 
 ### Configuration
 
 Modify the following .env values:
 
 ```shell
-DATABASE_HOST=127.0.0.1
-DATABASE_PORT=3306
-DATABASE_NAME=your_database_name
-DATABASE_USERNAME=your_username
-DATABASE_PASSWORD=your_password
+NODE_ENV=DEVELOPMENT // either PRODUCTION or DEVELOPMENT
 ```
 
 ## Deployment
