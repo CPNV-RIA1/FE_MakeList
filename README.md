@@ -89,6 +89,7 @@ pnpm run prod
 │   └── scripts
 ├── config
 ├── dist
+├── docs
 ├── middleware
 ├── node_modules
 ├── public

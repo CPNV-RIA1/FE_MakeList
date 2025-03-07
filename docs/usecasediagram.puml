@@ -1,0 +1,30 @@
+@startuml
+left to right direction
+
+
+actor "Utilisateur\n Anonyme" as Guest
+actor "Utilisateur\nConnecté" as User
+actor "Administrateur" as Admin
+
+User -|> Guest 
+Admin -|> User
+
+rectangle "MakeList" {
+    Guest --> (Voir les TierLists)
+    Guest --> (Consulter une Tierlist)
+    Guest --> (Partager une TierList)
+    
+    User --> (Creer une TiersList)
+    User --> (Modifier une TierList)
+    User --> (Gerer son Profile)
+    
+    Admin --> (Gerer les Utilisateurs)
+    Admin --> (Delete les Tier Lists)
+}
+
+
+  
+ 
+
+
+@enduml
