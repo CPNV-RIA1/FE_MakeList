@@ -22,7 +22,7 @@ test("homePage_NominalCase_WebAppLanguageEnglish", async () => {
 
     //when
     await driver.get("http://127.0.0.1:3000/");
-    let translatedText = await driver.findElement(By.id("title")).getText();
+    let translatedText = await driver.findElement(By.id("greeting")).getText();
     let language = await driver.executeScript(
         "return navigator.language || navigator.userLanguage;"
     );
@@ -43,7 +43,7 @@ test("homePage_NominalCase_WebAppLanguageJapanese", async () => {
 
     //when
     await driver.get("http://127.0.0.1:3000/");
-    let translatedText = await driver.findElement(By.id("title")).getText();
+    let translatedText = await driver.findElement(By.id("greeting")).getText();
     let language = await driver.executeScript(
         "return navigator.language || navigator.userLanguage;"
     );
@@ -64,7 +64,7 @@ test("homePage_LanguageNotSupported_WebAppDefaultLanguage", async () => {
 
     //when
     await driver.get("http://127.0.0.1:3000/");
-    let translatedText = await driver.findElement(By.id("title")).getText();
+    let translatedText = await driver.findElement(By.id("greeting")).getText();
     let language = await driver.executeScript(
         "return navigator.language || navigator.userLanguage;"
     );
@@ -109,11 +109,11 @@ test("homePage_NomincalCase_SwitchLanguageViaDropdown", async () => {
     //when
     await driver.get("http://127.0.0.1:3000/");
     let translatedTextBefore = await driver
-        .findElement(By.id("title"))
+        .findElement(By.id("greeting"))
         .getText();
     await driver.findElement(By.id("jp")).click();
     let translatedTextAfter = await driver
-        .findElement(By.id("title"))
+        .findElement(By.id("greeting"))
         .getText();
 
     //then
