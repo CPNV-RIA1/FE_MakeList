@@ -7,6 +7,7 @@
     <link href="../dist/styles.css" rel="stylesheet">
 </head>
 
+
 <body>
     <div class="absolute flex h-screen w-16 flex-col justify-between border-e border-gray-100 bg-white">
         <!-- Sidebar -->
@@ -150,18 +151,61 @@
             <div class="space-y-4 md:space-y-8">
                 <div>
                     <h2 class="text-2xl font-semibold text-gray-900 sm:text-3xl">
-                        Public Tierlists
+                        <span id="greeting">Loading...</h1>
                     </h2>
                     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8"> <!-- Grid with 3 even columns -->
                         <div class="h-32 rounded-lg bg-gray-200"></div>
                         <div class="h-32 rounded-lg bg-gray-200"></div>
                         <div class="h-32 rounded-lg bg-gray-200"></div>
                     </div>
+                    <!-- Language Change Dropdown -->
+                    <label id="change-language-label" for="change-language">Choose Language: </label>
+                    <select id="change-language">
+                        <option value="en">English</option>
+                        <option value="fr">French</option>
+                    </select>
 
                 </div>
             </div>
         </div>
     </section>
 </body>
+<script>
+    // Function to load translations from localStorage or fetch if not available
+    function loadTranslations(lang) {
+        let translations = localStorage.getItem('translations');
+        if (translations) {
+            translations = JSON.parse(translations);
+            document.getElementById('greeting').textContent = translations[lang].greeting;
+            document.getElementById('change-language-label').textContent = translations[lang].change_language;
+        } else {
+            // Fetch all translations from the server if not in localStorage
+            fetch('/translations/all')
+                .then(response => response.json())
+                .then(allTranslations => {
+                    // Store all translations in localStorage for future use
+                    localStorage.setItem('translations', JSON.stringify(allTranslations));
+
+                    // Use the selected language's translations
+                    document.getElementById('greeting').textContent = allTranslations[lang].greeting;
+                    document.getElementById('change-language').textContent = allTranslations[lang].change_language;
+                });
+        }
+    }
+
+    // Handle language change
+    document.getElementById('change-language').addEventListener('click', () => {
+        console.log
+
+        const newLang = document.getElementById('change-language').value
+
+        localStorage.setItem('lang', newLang);  // Store the new language in localStorage
+        loadTranslations(newLang);  // Reload translations for the new language
+    });
+
+    // Load translations based on the stored language or default to 'en'
+    const storedLang = localStorage.getItem('lang') || 'en';
+    loadTranslations(storedLang);
+</script>
 
 </html>
