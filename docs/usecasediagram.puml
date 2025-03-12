@@ -1,7 +1,6 @@
 @startuml
 left to right direction
 
-
 actor "Utilisateur\n Anonyme" as Guest
 actor "Utilisateur\nConnecté" as User
 actor "Administrateur" as Admin
@@ -21,10 +20,5 @@ rectangle "MakeList" {
     Admin --> (Gerer les Utilisateurs)
     Admin --> (Delete les Tier Lists)
 }
-
-
-  
- 
-
 
 @enduml
