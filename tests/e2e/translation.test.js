@@ -3,6 +3,15 @@
 const { By, Builder } = require("selenium-webdriver");
 const chrome = require("selenium-webdriver/chrome");
 
+let englishDictionary = {
+    greeting: "Hello, World!",
+    change_language: "Change Language",
+};
+let frenchDictionary = {
+    greeting: "Bonjour !",
+    change_language: "Changer Langue",
+};
+
 let driver;
 
 afterEach(async () => {
@@ -29,13 +38,13 @@ test("homePage_NominalCase_WebAppLanguageEnglish", async () => {
 
     //then
     expect(language).toEqual("en-US");
-    expect(translatedText).toEqual("Public Tierlists");
+    expect(translatedText).toEqual(englishDictionary.greeting);
 });
 
-test("homePage_NominalCase_WebAppLanguageJapanese", async () => {
+test("homePage_NominalCase_WebAppLanguagefrpanese", async () => {
     //given
     let options = new chrome.Options();
-    options.addArguments("--lang=ja-JP");
+    options.addArguments("--lang=fr-FR");
     driver = await new Builder()
         .forBrowser("chrome")
         .setChromeOptions(options)
@@ -49,8 +58,8 @@ test("homePage_NominalCase_WebAppLanguageJapanese", async () => {
     );
 
     //then
-    expect(language).toEqual("ja");
-    expect(translatedText).toEqual("公共ティアリスト");
+    expect(language).toEqual("fr-FR");
+    expect(translatedText).toEqual(frenchDictionary.greeting);
 });
 
 test("homePage_LanguageNotSupported_WebAppDefaultLanguage", async () => {
@@ -71,7 +80,7 @@ test("homePage_LanguageNotSupported_WebAppDefaultLanguage", async () => {
 
     //then
     expect(language).toEqual("cs-CZ");
-    expect(translatedText).toEqual("Public Tierlists");
+    expect(translatedText).toEqual(englishDictionary.greeting);
 });
 
 test("homePage_LanguageNotSupported_ErrorMessagePopup", async () => {
@@ -111,12 +120,47 @@ test("homePage_NomincalCase_SwitchLanguageViaDropdown", async () => {
     let translatedTextBefore = await driver
         .findElement(By.id("greeting"))
         .getText();
-    await driver.findElement(By.id("jp")).click();
+    await driver.findElement(By.id("fr")).click();
     let translatedTextAfter = await driver
         .findElement(By.id("greeting"))
         .getText();
 
     //then
-    expect(translatedTextBefore).toEqual("Public Tierlists");
-    expect(translatedTextAfter).toEqual("公共ティアリスト");
+    expect(translatedTextBefore).toEqual(englishDictionary.greeting);
+    expect(translatedTextAfter).toEqual(frenchDictionary.greeting);
+});
+
+test("homePage_AutoTranslate_ExcludeCertainElements", async () => {
+    //given
+    let options = new chrome.Options();
+    options.addArguments("--lang=es-ES");
+    options.set("prefs", {
+        translate: {
+            enabled: true,
+        },
+        translate_whitelists: { en: "es" },
+        profile: {
+            default_content_setting_values: {
+                translate: 1,
+            },
+        },
+    });
+
+    driver = await new Builder()
+        .forBrowser("chrome")
+        .setChromeOptions(options)
+        .build();
+
+    //when
+    await driver.get("http://127.0.0.1:3000/");
+    await driver.sleep(3000);
+
+    let translatedText = await driver.findElement(By.id("greeting")).getText();
+    let excludedElementText = await driver
+        .findElement(By.id("brand-name"))
+        .getText();
+
+    //then
+    expect(translatedText).toEqual("¡Hola Mundo!");
+    expect(excludedElementText).toEqual("TierlistApp");
 });
