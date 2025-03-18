@@ -41,7 +41,7 @@ test("homePage_NominalCase_WebAppLanguageEnglish", async () => {
     expect(translatedText).toEqual(englishDictionary.greeting);
 });
 
-test("homePage_NominalCase_WebAppLanguagefrpanese", async () => {
+test("homePage_NominalCase_WebAppLanguageFrench", async () => {
     //given
     let options = new chrome.Options();
     options.addArguments("--lang=fr-FR");
