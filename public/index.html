@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../dist/styles.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/i18next@24.2.3/i18next.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/loc-i18next@0.1.6/dist/umd/loc-i18next.min.js"></script>
     <script
@@ -169,7 +170,7 @@
                         <option value="en">English</option>
                         <option value="fr">French</option>
                     </select>
-
+                    <button id="new-toast">New toast</button>
                 </div>
             </div>
         </div>
@@ -210,6 +211,22 @@
             localize("body");
         });
     });
-</script>
 
+    document.getElementById("new-toast").addEventListener("click", function() {
+        let toast = Toastify({
+            text: "This language could not be initialized.",
+            duration: 3000,
+            gravity: "bottom",
+            position: 'right',
+            stopOnFocus: true,
+            style: {
+                background: '#ff4444'
+            },
+            onClick: function() {
+                toast.hideToast();
+            },
+        }).showToast();
+    });
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </html>
