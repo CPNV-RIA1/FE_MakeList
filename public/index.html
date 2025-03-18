@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../dist/styles.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/i18next@24.2.3/i18next.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/loc-i18next@0.1.6/dist/umd/loc-i18next.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@8.0.4/i18nextBrowserLanguageDetector.min.js"></script>
 </head>
 
 
@@ -151,7 +155,7 @@
             <div class="space-y-4 md:space-y-8">
                 <div>
                     <h2 class="text-2xl font-semibold text-gray-900 sm:text-3xl">
-                        <span id="greeting">Loading...</h1>
+                        <span data-i18n="greeting">Loading...</h1>
                     </h2>
                     <p id="brand-name">TierlistApp</p>
                     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8"> <!-- Grid with 3 even columns -->
@@ -160,7 +164,7 @@
                         <div class="h-32 rounded-lg bg-gray-200"></div>
                     </div>
                     <!-- Language Change Dropdown -->
-                    <label id="change-language-label" for="change-language">Choose Language: </label>
+                    <label data-i18n="changeLanguageLabel" for="change-language">Loading...</label>
                     <select id="change-language">
                         <option value="en">English</option>
                         <option value="fr">French</option>
@@ -172,41 +176,40 @@
     </section>
 </body>
 <script>
-    // Function to load translations from localStorage or fetch if not available
-    function loadTranslations(lang) {
-        let translations = localStorage.getItem('translations');
-        if (translations) {
-            translations = JSON.parse(translations);
-            document.getElementById('greeting').textContent = translations[lang].greeting;
-            document.getElementById('change-language-label').textContent = translations[lang].change_language;
-        } else {
-            // Fetch all translations from the server if not in localStorage
-            fetch('/translations/all')
-                .then(response => response.json())
-                .then(allTranslations => {
-                    // Store all translations in localStorage for future use
-                    localStorage.setItem('translations', JSON.stringify(allTranslations));
-
-                    // Use the selected language's translations
-                    document.getElementById('greeting').textContent = allTranslations[lang].greeting;
-                    document.getElementById('change-language').textContent = allTranslations[lang].change_language;
-                });
+    i18next.use(i18nextBrowserLanguageDetector).init({
+        debug: true,
+        resources: {
+            'en': {
+                translation: {
+                    greeting: "Hello, World!",
+                    changeLanguageLabel: "Change language :"
+                }
+            },
+            'fr': {
+                translation: {
+                    greeting: "Bonjour, le Monde!",
+                    changeLanguageLabel: "Changer langue :"
+                }
+            }
+        },
+        detection: {
+            order: ['querystring', 'localStorage', 'navigator', 'htmlTag'],
+            caches: ['localStorage'],
+            lookupQuerystring: 'lang',
         }
-    }
-
-    // Handle language change
-    document.getElementById('change-language').addEventListener('click', () => {
-        console.log
-
-        const newLang = document.getElementById('change-language').value
-
-        localStorage.setItem('lang', newLang);  // Store the new language in localStorage
-        loadTranslations(newLang);  // Reload translations for the new language
     });
 
-    // Load translations based on the stored language or default to 'en'
-    const storedLang = localStorage.getItem('lang') || 'en';
-    loadTranslations(storedLang);
+    console.log("a", i18next.language);
+    const localize = locI18next.init(i18next)
+    localize("body")
+
+    document.getElementById('change-language').addEventListener('change', (event) => {
+        console.log("Dropdown selection changed")
+        const selectedLanguage = event.target.value;
+        i18next.changeLanguage(selectedLanguage, () => {
+            localize("body");
+        });
+    });
 </script>
 
 </html>

@@ -1,20 +1,10 @@
 const express = require('express')
 const path = require('path');
-const i18n = require('i18n');
 const fs = require('fs');
 
 
 const app = express()
 const port = 3000
-
-i18n.configure({
-    locales: ['en', 'fr'], // List your supported languages here
-    directory: path.join(__dirname, '../assets/locales'), // Directory where language files are stored
-    // defaultLocale: 'en',
-    queryParameter: 'lang', // Use 'lang' query parameter to change language
-});
-
-app.use(i18n.init);
 
 app.use('/dist', express.static(path.join(__dirname, '../dist')));
 
