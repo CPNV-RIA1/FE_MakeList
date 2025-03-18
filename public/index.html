@@ -199,12 +199,10 @@
         }
     });
 
-    console.log("a", i18next.language);
     const localize = locI18next.init(i18next)
     localize("body")
 
     document.getElementById('change-language').addEventListener('change', (event) => {
-        console.log("Dropdown selection changed")
         const selectedLanguage = event.target.value;
         i18next.changeLanguage(selectedLanguage, () => {
             localize("body");
