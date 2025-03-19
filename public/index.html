@@ -11,12 +11,11 @@
     <script
         src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@8.0.4/i18nextBrowserLanguageDetector.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-
 </head>
 
 
 <body>
-    <div class="absolute flex h-screen w-16 flex-col justify-between border-e border-gray-100 bg-white">
+    <div class="fixed top-0 left-0 z-40 flex h-screen w-16 flex-col justify-between border-e border-gray-100 bg-white">
         <!-- Sidebar -->
         <div>
             <div class="inline-flex size-16 items-center justify-center">
@@ -178,79 +177,6 @@
         </div>
     </section>
 </body>
-<script>
-    i18next.use(i18nextBrowserLanguageDetector).init({
-        debug: true,
-        resources: {
-            'en': {
-                translation: {
-                    greeting: "Hello, World!",
-                    changeLanguageLabel: "Change language :"
-                }
-            },
-            'fr': {
-                translation: {
-                    greeting: "Bonjour, le Monde!",
-                    changeLanguageLabel: "Changer langue :"
-                }
-            },
-            'jp': {
-                translation: {
-                    greeting: "こんにちわ世界!",
-                    changeLanguageLabel: "言語の変更 :"
-                }
-            }
-        },
-        detection: {
-            order: ['querystring', 'localStorage', 'navigator', 'htmlTag'],
-            caches: ['localStorage'],
-            lookupQuerystring: 'lang',
-        }
-    });
-
-    const localize = locI18next.init(i18next)
-    updateLocale()
-
-    document.getElementById('change-language').addEventListener('change', (event) => {
-        const selectedLanguage = event.target.value;
-        i18next.changeLanguage(selectedLanguage);
-        updateLocale()
-    });
-
-    window.addEventListener("languagechange", () => {
-        const langs = navigator.language;
-        i18next.changeLanguage(langs.split('-')[0]);
-        updateLocale()
-    });
-
-    function updateLocale() {
-        localize("body")
-
-        if (!['en', 'fr', 'jp'].includes(i18next.language.split('-')[0])) {
-            let toast = Toastify({
-                text: "The language \'" + i18next.language + "\' could not be initialized.",
-                duration: 10000,
-                gravity: "bottom",
-                position: 'right',
-                stopOnFocus: true,
-                style: {
-                    background: '#ff4444'
-                },
-                onClick: function () {
-                    toast.hideToast();
-                },
-            }).showToast();
-        }
-
-        var ddl = document.getElementById('change-language');
-        var opts = ddl.options.length;
-        for (var i = 0; i < opts; i++) {
-            if (ddl.options[i].value == i18next.language.split('-')[0]) {
-                ddl.options[i].selected = true;
-                break;
-            }
-        }
-    }
-</script>
+<script type="text/javascript" src="/assets/scripts/i18n.js"></script>
 
 </html>
