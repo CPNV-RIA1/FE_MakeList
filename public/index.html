@@ -10,6 +10,8 @@
     <script src="https://cdn.jsdelivr.net/npm/loc-i18next@0.1.6/dist/umd/loc-i18next.min.js"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@8.0.4/i18nextBrowserLanguageDetector.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
 </head>
 
 
@@ -171,7 +173,6 @@
                         <option value="fr">Francais</option>
                         <option value="jp">日本語</option>
                     </select>
-                    <button id="new-toast">New toast</button>
                 </div>
             </div>
         </div>
@@ -209,6 +210,23 @@
 
     const localize = locI18next.init(i18next)
     localize("body")
+
+    if (!['en', 'fr', 'jp'].includes(i18next.language.split('-')[0])) {
+        let toast = Toastify({
+            text: "The language " + i18next.language + " could not be initialized.",
+            duration: 10000,
+            gravity: "bottom",
+            position: 'right',
+            stopOnFocus: true,
+            style: {
+                background: '#ff4444'
+            },
+            onClick: function () {
+                toast.hideToast();
+            },
+        }).showToast();
+    }
+
     var ddl = document.getElementById('change-language');
     var opts = ddl.options.length;
     for (var i = 0; i < opts; i++) {
@@ -224,23 +242,6 @@
             localize("body");
         });
     });
-
-    document.getElementById("new-toast").addEventListener("click", function () {
-        let toast = Toastify({
-            text: "This language could not be initialized.",
-            duration: 3000,
-            gravity: "bottom",
-            position: 'right',
-            stopOnFocus: true,
-            style: {
-                background: '#ff4444'
-            },
-            onClick: function () {
-                toast.hideToast();
-            },
-        }).showToast();
-    });
 </script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
 </html>
