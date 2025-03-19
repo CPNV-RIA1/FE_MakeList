@@ -242,6 +242,11 @@
             localize("body");
         });
     });
+
+    window.addEventListener("languagechange", () => {
+        const langs = navigator.language;
+        i18next.changeLanguage(langs.split('-')[0]);
+    });
 </script>
 
 </html>
