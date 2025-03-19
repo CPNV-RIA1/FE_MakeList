@@ -215,7 +215,7 @@
     document.getElementById("new-toast").addEventListener("click", function () {
         let toast = Toastify({
             text: "This language could not be initialized.",
-            duration: 10000,
+            duration: 3000,
             gravity: "bottom",
             position: 'right',
             stopOnFocus: true,
@@ -227,7 +227,7 @@
             },
         }).showToast();
     });
-    
+
     window.addEventListener("languagechange", () => {
         const langs = navigator.language;
         i18next.changeLanguage(langs.split('-')[0]);
