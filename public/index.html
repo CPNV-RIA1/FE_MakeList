@@ -209,44 +209,48 @@
     });
 
     const localize = locI18next.init(i18next)
-    localize("body")
-
-    if (!['en', 'fr', 'jp'].includes(i18next.language.split('-')[0])) {
-        let toast = Toastify({
-            text: "The language " + i18next.language + " could not be initialized.",
-            duration: 10000,
-            gravity: "bottom",
-            position: 'right',
-            stopOnFocus: true,
-            style: {
-                background: '#ff4444'
-            },
-            onClick: function () {
-                toast.hideToast();
-            },
-        }).showToast();
-    }
-
-    var ddl = document.getElementById('change-language');
-    var opts = ddl.options.length;
-    for (var i = 0; i < opts; i++) {
-        if (ddl.options[i].value == i18next.language.split('-')[0]) {
-            ddl.options[i].selected = true;
-            break;
-        }
-    }
+    updateLocale()
 
     document.getElementById('change-language').addEventListener('change', (event) => {
         const selectedLanguage = event.target.value;
-        i18next.changeLanguage(selectedLanguage, () => {
-            localize("body");
-        });
+        i18next.changeLanguage(selectedLanguage);
+        updateLocale()
     });
 
     window.addEventListener("languagechange", () => {
         const langs = navigator.language;
         i18next.changeLanguage(langs.split('-')[0]);
+        updateLocale()
     });
+
+    function updateLocale() {
+        localize("body")
+
+        if (!['en', 'fr', 'jp'].includes(i18next.language.split('-')[0])) {
+            let toast = Toastify({
+                text: "The language \'" + i18next.language + "\' could not be initialized.",
+                duration: 10000,
+                gravity: "bottom",
+                position: 'right',
+                stopOnFocus: true,
+                style: {
+                    background: '#ff4444'
+                },
+                onClick: function () {
+                    toast.hideToast();
+                },
+            }).showToast();
+        }
+
+        var ddl = document.getElementById('change-language');
+        var opts = ddl.options.length;
+        for (var i = 0; i < opts; i++) {
+            if (ddl.options[i].value == i18next.language.split('-')[0]) {
+                ddl.options[i].selected = true;
+                break;
+            }
+        }
+    }
 </script>
 
 </html>
