@@ -202,6 +202,14 @@
 
     const localize = locI18next.init(i18next)
     localize("body")
+    var ddl = document.getElementById('change-language');
+    var opts = ddl.options.length;
+    for (var i = 0; i < opts; i++) {
+        if (ddl.options[i].value == i18next.language.split('-')[0]) {
+            ddl.options[i].selected = true;
+            break;
+        }
+    }
 
     document.getElementById('change-language').addEventListener('change', (event) => {
         const selectedLanguage = event.target.value;
@@ -210,7 +218,7 @@
         });
     });
 
-    document.getElementById("new-toast").addEventListener("click", function() {
+    document.getElementById("new-toast").addEventListener("click", function () {
         let toast = Toastify({
             text: "This language could not be initialized.",
             duration: 3000,
@@ -220,11 +228,12 @@
             style: {
                 background: '#ff4444'
             },
-            onClick: function() {
+            onClick: function () {
                 toast.hideToast();
             },
         }).showToast();
     });
 </script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
 </html>
