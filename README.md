@@ -83,22 +83,24 @@ pnpm run prod
 ## Directory structure
 
 ```shell
-├── assets
-│   ├── images
-│   ├── styles
-│   └── scripts
-├── config
-├── dist
-├── middleware
 ├── node_modules
+│   └── ...
+├── package.json
+├── package-lock.json
+├── pnpm-lock.yaml
 ├── public
-├── src
-│   ├── components
-│   ├── services
-│   └── utils
-├── tests
-│   ├── unit
-│   └── e2e
+│   ├── assets
+│   │   ├── images
+│   │   ├── scripts
+│   │   └── styles
+│   │       └── main.css #uncompiled tailwind css
+│   ├── dist
+│   │   └── styles.css #compiled tailwind css
+│   └── index.html
+├── README.md
+└── tests
+    ├── e2e
+    └── unit
 ```
 
 ## Collaborate
