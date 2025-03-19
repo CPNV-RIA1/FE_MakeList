@@ -171,6 +171,8 @@
                         <option value="fr">French</option>
                     </select>
                     <button id="new-toast">New toast</button>
+                    <button id="myBtn">get lang</button>
+                    <p id="result"></p>
                 </div>
             </div>
         </div>
@@ -210,7 +212,7 @@
         });
     });
 
-    document.getElementById("new-toast").addEventListener("click", function() {
+    document.getElementById("new-toast").addEventListener("click", function () {
         let toast = Toastify({
             text: "This language could not be initialized.",
             duration: 10000,
@@ -220,11 +222,17 @@
             style: {
                 background: '#ff4444'
             },
-            onClick: function() {
+            onClick: function () {
                 toast.hideToast();
             },
         }).showToast();
     });
+    
+    window.addEventListener("languagechange", () => {
+        const langs = navigator.language;
+        i18next.changeLanguage(langs.split('-')[0]);
+    });
 </script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
 </html>
