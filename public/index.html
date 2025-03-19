@@ -204,6 +204,14 @@
 
     const localize = locI18next.init(i18next)
     localize("body")
+    var ddl = document.getElementById('change-language');
+    var opts = ddl.options.length;
+    for (var i = 0; i < opts; i++) {
+        if (ddl.options[i].value == i18next.language.split('-')[0]) {
+            ddl.options[i].selected = true;
+            break;
+        }
+    }
 
     document.getElementById('change-language').addEventListener('change', (event) => {
         const selectedLanguage = event.target.value;
