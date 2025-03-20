@@ -39,5 +39,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Set up Google Chrome and ChromeDriver
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: 'latest'
+          install-chromedriver: true
+
       - name: Run tests
         run: pnpm run test
