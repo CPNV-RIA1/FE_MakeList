@@ -10,7 +10,7 @@ This project helps people create tier lists easily on mobile or desktop
 
 * Visual Studio Code
 * pnpm: 10.5.2
-* node: v22.13.1
+* php: 8.3.11
 
 ### Configuration
 
