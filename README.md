@@ -27,7 +27,7 @@ NODE_ENV=DEVELOPMENT // either PRODUCTION or DEVELOPMENT
 1. Clone this repository:
 
 ```
-git clone ...
+git clone https://github.com/CPNV-RIA1/FE_MakeList.git
 ```
 
 2. Install the packages:
