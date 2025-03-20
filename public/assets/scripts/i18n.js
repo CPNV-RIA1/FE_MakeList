@@ -1,3 +1,5 @@
+"use strict";
+
 document.addEventListener("DOMContentLoaded", () => {
     initI18n();
     setupLanguageSwitcher();
@@ -63,6 +65,8 @@ function updateLocale() {
         showToast(
             `The language '${i18next.language}' could not be initialized.`
         );
+        i18next.changeLanguage('en', updateLocale);
+        return;
     }
 
     let languageSelector = document.getElementById("change-language");
