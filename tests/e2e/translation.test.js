@@ -5,11 +5,11 @@ const chrome = require("selenium-webdriver/chrome");
 
 let englishDictionary = {
     greeting: "Hello, World!",
-    change_language: "Change Language",
+    changeLanguageLabel: "Change language :",
 };
 let frenchDictionary = {
-    greeting: "Bonjour !",
-    change_language: "Changer Langue",
+    greeting: "Bonjour, le Monde!",
+    changeLanguageLabel: "Changer langue :",
 };
 
 let driver;
@@ -30,8 +30,10 @@ test("homePage_NominalCase_WebAppLanguageEnglish", async () => {
         .build();
 
     //when
-    await driver.get("http://127.0.0.1:3000/");
-    let translatedText = await driver.findElement(By.id("greeting")).getText();
+    await driver.get("http://127.0.0.1:8081/");
+    let translatedText = await driver
+        .findElement(By.css('[data-i18n="greeting"]'))
+        .getText();
     let language = await driver.executeScript(
         "return navigator.language || navigator.userLanguage;"
     );
@@ -51,8 +53,10 @@ test("homePage_NominalCase_WebAppLanguageFrench", async () => {
         .build();
 
     //when
-    await driver.get("http://127.0.0.1:3000/");
-    let translatedText = await driver.findElement(By.id("greeting")).getText();
+    await driver.get("http://127.0.0.1:8081/");
+    let translatedText = await driver
+        .findElement(By.css('[data-i18n="greeting"]'))
+        .getText();
     let language = await driver.executeScript(
         "return navigator.language || navigator.userLanguage;"
     );
@@ -72,8 +76,10 @@ test("homePage_LanguageNotSupported_WebAppDefaultLanguage", async () => {
         .build();
 
     //when
-    await driver.get("http://127.0.0.1:3000/");
-    let translatedText = await driver.findElement(By.id("greeting")).getText();
+    await driver.get("http://127.0.0.1:8081/");
+    let translatedText = await driver
+        .findElement(By.css('[data-i18n="greeting"]'))
+        .getText();
     let language = await driver.executeScript(
         "return navigator.language || navigator.userLanguage;"
     );
@@ -93,9 +99,9 @@ test("homePage_LanguageNotSupported_ErrorMessagePopup", async () => {
         .build();
 
     //when
-    await driver.get("http://127.0.0.1:3000/");
+    await driver.get("http://127.0.0.1:8081/");
     let translatedText = await driver
-        .findElement(By.id("error-message"))
+        .findElement(By.className("toastify"))
         .getText();
     let language = await driver.executeScript(
         "return navigator.language || navigator.userLanguage;"
@@ -103,7 +109,9 @@ test("homePage_LanguageNotSupported_ErrorMessagePopup", async () => {
 
     //then
     expect(language).toEqual("cs-CZ");
-    expect(translatedText).toEqual("The browser language is not supported.");
+    expect(translatedText).toEqual(
+        `The language '${language}' could not be initialized.`
+    );
 });
 
 test("homePage_NomincalCase_SwitchLanguageViaDropdown", async () => {
@@ -116,13 +124,16 @@ test("homePage_NomincalCase_SwitchLanguageViaDropdown", async () => {
         .build();
 
     //when
-    await driver.get("http://127.0.0.1:3000/");
+    await driver.get("http://127.0.0.1:8081/");
+    let frenchOption = await driver.findElement(
+        By.css('#change-language option[value="fr"]')
+    );
     let translatedTextBefore = await driver
-        .findElement(By.id("greeting"))
+        .findElement(By.css('[data-i18n="greeting"]'))
         .getText();
-    await driver.findElement(By.id("fr")).click();
+    await frenchOption.click();
     let translatedTextAfter = await driver
-        .findElement(By.id("greeting"))
+        .findElement(By.css('[data-i18n="greeting"]'))
         .getText();
 
     //then
@@ -152,10 +163,12 @@ test("homePage_AutoTranslate_ExcludeCertainElements", async () => {
         .build();
 
     //when
-    await driver.get("http://127.0.0.1:3000/");
+    await driver.get("http://127.0.0.1:8081/");
     await driver.sleep(3000);
 
-    let translatedText = await driver.findElement(By.id("greeting")).getText();
+    let translatedText = await driver
+        .findElement(By.css('[data-i18n="greeting"]'))
+        .getText();
     let excludedElementText = await driver
         .findElement(By.id("brand-name"))
         .getText();
