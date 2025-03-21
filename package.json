@@ -4,7 +4,8 @@
 	"description": "This project helps people create tier lists easily on mobile or desktop",
 	"main": "src/index.js",
 	"scripts": {
-		"test": "start-server-and-test 'php -S 127.0.0.1:8081 -t public' http://127.0.0.1:8081 jest",
+		"test": "jest",
+		"dev-test": "start-server-and-test dev http://127.0.0.1:8081 test",
 		"dev": "set NODE_ENV=DEVELOPMENT && php -S 127.0.0.1:8081 -t public",
 		"prod": "set NODE_ENV=PRODUCTION  && nphp -S 127.0.0.1:8081 -t public",
 		"tailwind": "npx @tailwindcss/cli -i ./public/assets/styles/main.css -o ./public/dist/styles.css --watch"
