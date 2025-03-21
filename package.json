@@ -4,7 +4,7 @@
 	"description": "This project helps people create tier lists easily on mobile or desktop",
 	"main": "src/index.js",
 	"scripts": {
-		"test": "jest",
+		"test": "start-server-and-test 'php -S 127.0.0.1:8081 -t public' http://127.0.0.1:8081 jest",
 		"dev": "set NODE_ENV=DEVELOPMENT && php -S 127.0.0.1:8081 -t public",
 		"prod": "set NODE_ENV=PRODUCTION  && nphp -S 127.0.0.1:8081 -t public",
 		"tailwind": "npx @tailwindcss/cli -i ./public/assets/styles/main.css -o ./public/dist/styles.css --watch"
@@ -31,6 +31,7 @@
 	},
 	"homepage": "https://github.com/CPNV-RIA1/FE_MakeList#readme",
 	"devDependencies": {
-		"jest": "^29.7.0"
+		"jest": "^29.7.0",
+		"start-server-and-test": "^2.0.11"
 	}
 }
