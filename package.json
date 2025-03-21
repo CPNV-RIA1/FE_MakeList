@@ -11,12 +11,14 @@
 	},
 	"dependencies": {
 		"@tailwindcss/cli": "^4.0.9",
+		"chromedriver": "^134.0.4",
 		"i18next": "^24.2.3",
 		"i18next-browser-languagedetector": "^8.0.4",
 		"loc-i18next": "^0.1.6",
 		"selenium-webdriver": "^4.29.0",
 		"tailwindcss": "^4.0.9",
-		"toastify-js": "^1.12.0"
+		"toastify-js": "^1.12.0",
+		"webdriver-manager": "^12.1.9"
 	},
 	"repository": {
 		"type": "git",

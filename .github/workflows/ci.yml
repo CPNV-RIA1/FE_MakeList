@@ -39,29 +39,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Install Chrome Stable & Matching ChromeDriver
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable unzip
-          
-          # Extract the full Chrome version
-          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
-      
-          echo "Chrome version: $CHROME_VERSION"
-      
-          # Fetch the latest matching ChromeDriver version
-          DRIVER_VERSION=$(curl -sS "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
-      
-          if [ -z "$DRIVER_VERSION" ]; then
-            echo "Failed to fetch ChromeDriver version for Chrome $CHROME_VERSION"
-            exit 1
-          fi
-      
-          echo "Downloading ChromeDriver version: $DRIVER_VERSION"
-          curl -sS -o /tmp/chromedriver.zip "https://chromedriver.storage.googleapis.com/$DRIVER_VERSION/chromedriver_linux64.zip"
-      
-          sudo unzip /tmp/chromedriver.zip -d /usr/local/bin/
-          sudo chmod +x /usr/local/bin/chromedriver
+      - name: Set up Google Chrome and ChromeDriver
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: 'latest'
+          install-chromedriver: true
       
       - name: Run tests
         run: pnpm run test
