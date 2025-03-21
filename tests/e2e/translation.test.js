@@ -24,6 +24,9 @@ test("homePage_NominalCase_WebAppLanguageEnglish", async () => {
     //given
     let options = new chrome.Options();
     options.addArguments("--lang=en-US");
+    options.addArguments("--disable-gpu");
+    options.addArguments("--no-sandbox");
+    options.addArguments("--disable-dev-shm-usage");
     driver = await new Builder()
         .forBrowser("chrome")
         .setChromeOptions(options)
@@ -47,6 +50,9 @@ test("homePage_NominalCase_WebAppLanguageFrench", async () => {
     //given
     let options = new chrome.Options();
     options.addArguments("--lang=fr-FR");
+    options.addArguments("--disable-gpu");
+    options.addArguments("--no-sandbox");
+    options.addArguments("--disable-dev-shm-usage");
     driver = await new Builder()
         .forBrowser("chrome")
         .setChromeOptions(options)
@@ -70,6 +76,9 @@ test("homePage_LanguageNotSupported_WebAppDefaultLanguage", async () => {
     //given
     let options = new chrome.Options();
     options.addArguments("--lang=cs-CZ");
+    options.addArguments("--disable-gpu");
+    options.addArguments("--no-sandbox");
+    options.addArguments("--disable-dev-shm-usage");
     driver = await new Builder()
         .forBrowser("chrome")
         .setChromeOptions(options)
@@ -93,6 +102,9 @@ test("homePage_LanguageNotSupported_ErrorMessagePopup", async () => {
     //given
     let options = new chrome.Options();
     options.addArguments("--lang=cs-CZ");
+    options.addArguments("--disable-gpu");
+    options.addArguments("--no-sandbox");
+    options.addArguments("--disable-dev-shm-usage");
     driver = await new Builder()
         .forBrowser("chrome")
         .setChromeOptions(options)
@@ -118,6 +130,9 @@ test("homePage_NomincalCase_SwitchLanguageViaDropdown", async () => {
     //given
     let options = new chrome.Options();
     options.addArguments("--lang=en-US");
+    options.addArguments("--disable-gpu");
+    options.addArguments("--no-sandbox");
+    options.addArguments("--disable-dev-shm-usage");
     driver = await new Builder()
         .forBrowser("chrome")
         .setChromeOptions(options)
@@ -145,6 +160,9 @@ test("homePage_AutoTranslate_ExcludeCertainElements", async () => {
     //given
     let options = new chrome.Options();
     options.addArguments("--lang=es-ES");
+    options.addArguments("--disable-gpu");
+    options.addArguments("--no-sandbox");
+    options.addArguments("--disable-dev-shm-usage");
     options.set("prefs", {
         translate: {
             enabled: true,
