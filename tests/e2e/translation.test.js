@@ -3,8 +3,11 @@
 const { By, Builder } = require("selenium-webdriver");
 const chrome = require("selenium-webdriver/chrome");
 const { execSync } = require("child_process");
+const { until } = require("selenium-webdriver");
 
 execSync("npx webdriver-manager update --chrome", { stdio: "inherit" });
+
+jest.setTimeout(10000);
 
 let englishDictionary = {
     greeting: "Hello, World!",
@@ -49,9 +52,11 @@ test("homePage_NominalCase_WebAppLanguageEnglish", async () => {
     await driver.get("http://127.0.0.1:8081/");
 
     //when
-    let translatedText = await driver
-        .findElement(By.css('[data-i18n="greeting"]'))
-        .getText();
+    const greeting = await driver.wait(
+        until.elementLocated(By.css('[data-i18n="greeting"]')),
+        10000
+    );
+    let translatedText = await greeting.getText();
     let language = await driver.executeScript(
         "return navigator.language || navigator.userLanguage;"
     );
@@ -67,9 +72,11 @@ test("homePage_NominalCase_WebAppLanguageFrench", async () => {
     await driver.get("http://127.0.0.1:8081/");
 
     //when
-    let translatedText = await driver
-        .findElement(By.css('[data-i18n="greeting"]'))
-        .getText();
+    const greeting = await driver.wait(
+        until.elementLocated(By.css('[data-i18n="greeting"]')),
+        10000
+    );
+    let translatedText = await greeting.getText();
     let language = await driver.executeScript(
         "return navigator.language || navigator.userLanguage;"
     );
@@ -85,9 +92,11 @@ test("homePage_LanguageNotSupported_WebAppDefaultLanguage", async () => {
     await driver.get("http://127.0.0.1:8081/");
 
     //when
-    let translatedText = await driver
-        .findElement(By.css('[data-i18n="greeting"]'))
-        .getText();
+    const greeting = await driver.wait(
+        until.elementLocated(By.css('[data-i18n="greeting"]')),
+        10000
+    );
+    let translatedText = await greeting.getText();
     let language = await driver.executeScript(
         "return navigator.language || navigator.userLanguage;"
     );
@@ -103,9 +112,11 @@ test("homePage_LanguageNotSupported_ErrorMessagePopup", async () => {
     await driver.get("http://127.0.0.1:8081/");
 
     //when
-    let translatedText = await driver
-        .findElement(By.className("toastify"))
-        .getText();
+    const toast = await driver.wait(
+        until.elementLocated(By.className("toastify")),
+        10000
+    );
+    let translatedText = await toast.getText();
     let language = await driver.executeScript(
         "return navigator.language || navigator.userLanguage;"
     );
