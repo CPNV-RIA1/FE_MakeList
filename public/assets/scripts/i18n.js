@@ -35,7 +35,7 @@ function initI18n() {
                         loginPageSubtitle: "Merci de vous connecter avant d'accéder à vos tierlists"
                     },
                 },
-                jp: {
+                ja: {
                     translation: {
                         greeting: "こんにちわ世界!",
                         changeLanguageLabel: "言語の変更 :",
@@ -58,11 +58,19 @@ function initI18n() {
 }
 
 function setupLanguageSwitcher() {
-    const languageDropdown = document.getElementById("change-language");
+    const languageDropdown = document.getElementById("dropdown");
+
     if (languageDropdown) {
-        languageDropdown.addEventListener("change", (event) => {
-            const selectedLanguage = event.target.value;
-            i18next.changeLanguage(selectedLanguage, updateLocale);
+        const languageOptions =
+            languageDropdown.querySelectorAll("[data-lang]");
+
+        languageOptions.forEach((option) => {
+            option.addEventListener("click", () => {
+                const languageCode = option.getAttribute("data-lang");
+                if (languageCode) {
+                    i18next.changeLanguage(languageCode, updateLocale);
+                }
+            });
         });
     }
 
@@ -76,14 +84,14 @@ function updateLocale() {
     const localize = locI18next.init(i18next);
     localize("body");
 
-    const supportedLanguages = ["en", "fr", "jp"];
+    const supportedLanguages = ["en", "fr", "ja"];
     const currentLang = i18next.language.split("-")[0];
 
     if (!supportedLanguages.includes(currentLang)) {
         showToast(
             `The language '${i18next.language}' could not be initialized.`
         );
-        i18next.changeLanguage('en', updateLocale);
+        i18next.changeLanguage("en", updateLocale);
         return;
     }
 
