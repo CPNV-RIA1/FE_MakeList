@@ -15,18 +15,36 @@ function initI18n() {
                     translation: {
                         greeting: "Hello, World!",
                         changeLanguageLabel: "Change language :",
+                        loginFormSignupLink: "Create a new account",
+                        loginFormSigninButton: "Sign In",
+                        loginFormTitle: "Log In",
+                        loginFormEmailTooltip: "Enter email",
+                        loginFormpassword: "Enter password",
+                        loginPageSubtitle: "Please log in before accessing your tierlists"
                     },
                 },
                 fr: {
                     translation: {
                         greeting: "Bonjour, le Monde!",
                         changeLanguageLabel: "Changer langue :",
+                        loginFormSignupLink: "Créer un nouveau compte",
+                        loginFormSigninButton: "Se connecter",
+                        loginFormTitle: "Formulaire de connection",
+                        loginFormEmailTooltip: "e-mail",
+                        loginFormpassword: "mot de passe",
+                        loginPageSubtitle: "Merci de vous connecter avant d'accéder à vos tierlists"
                     },
                 },
                 jp: {
                     translation: {
                         greeting: "こんにちわ世界!",
                         changeLanguageLabel: "言語の変更 :",
+                        loginFormSignupLink: "新しいアカウントを作成する",
+                        loginFormSigninButton: "サインイン",
+                        loginFormTitle: "ログイン",
+                        loginFormEmailTooltip: "電子メール",
+                        loginFormpassword: "パスワード",
+                        loginPageSubtitle: "ティアリストにアクセスする前にログインしてください。"
                     },
                 },
             },
