@@ -15,34 +15,6 @@
 
 
 <body>
-    <!--
-  Heads up! 👋
-
-  Plugins:
-    - @tailwindcss/forms
--->
-
-    <!--
-  Heads up! 👋
-
-  Plugins:
-    - @tailwindcss/forms
--->
-
-    <!--
-  Heads up! 👋
-
-  Plugins:
-    - @tailwindcss/forms
--->
-
-    <!--
-  Heads up! 👋
-
-  Plugins:
-    - @tailwindcss/forms
--->
-
     <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
         <div class="mx-auto max-w-lg">
             <h1 class="text-center text-2xl font-bold text-indigo-600 sm:text-3xl" class="notranslate">MakeList
@@ -51,13 +23,16 @@
             <p class="mx-auto mt-4 max-w-md text-center text-gray-500" data-i18n="loginPageSubtitle">
                 Loading...
             </p>
-
+            <div id="message">
+                <ul id="errors"></ul>
+            </div>
             <form action="#" class="mt-6 mb-0 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8">
                 <p class="text-center text-lg font-medium" data-i18n="loginFormTitle">Loading...</p>
 
                 <div>
                     <div class="relative">
-                        <input type="email" class="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-xs"
+                        <input type="email" id="email"
+                            class="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-xs"
                             placeholder="Enter email" data-i18n="[placeholder]loginFormEmailTooltip" />
 
                         <span class="absolute inset-y-0 end-0 grid place-content-center px-4">
@@ -72,7 +47,8 @@
 
                 <div>
                     <div class="relative">
-                        <input type="password" class="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-xs"
+                        <input type="password" id="password"
+                            class="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-xs"
                             placeholder="Enter password" data-i18n="[placeholder]loginFormpassword" />
 
                         <span class="absolute inset-y-0 end-0 grid place-content-center px-4">
@@ -87,7 +63,7 @@
                     </div>
                 </div>
 
-                <button type="submit"
+                <button type="submit" id="loginBtn"
                     class="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white"
                     data-i18n="loginFormSigninButton">
                     Loading...
@@ -109,5 +85,56 @@
 
 </body>
 <script type="text/javascript" src="./assets/scripts/i18n.js"></script>
+<script>
+    document.getElementById("loginBtn").addEventListener("click", function () {
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const message = document.getElementById("message");
+        const ul = document.getElementById("errors");
+
+        ul.innerHTML = ''; //remove all error childs
+
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        let errorMessages = [];
+        if (!emailRegex.test(email)) {
+            errorMessages.push({ i18n: "error.email_invalid" });
+        }
+
+        if (password.length < 8)
+            errorMessages.push({ i18n: "error.password_length" });
+        if (!/[A-Z]/.test(password))
+            errorMessages.push({ i18n: "error.password_uppercase" });
+        if (!/[a-z]/.test(password))
+            errorMessages.push({ i18n: "error.password_lowercase" });
+        if (!/[\d]/.test(password))
+            errorMessages.push({ i18n: "error.password_digit" });
+        if (!/[\W]/.test(password))
+            errorMessages.push({ i18n: "error.password_special" });
+
+
+        if (errorMessages.length > 0) {
+            errorMessages.forEach(error => {
+                const li = document.createElement("li");
+                li.setAttribute("data-i18n", error.i18n);
+                ul.appendChild(li);
+            });
+            updateLocale();
+            return;
+        }
+
+
+        message.textContent = "Login successful!";
+
+        const expiryDate = new Date();
+        expiryDate.setDate(expiryDate.getDate() + 7);
+        document.cookie = `userEmail=${encodeURIComponent(email)}; expires=${expiryDate.toUTCString()}; path=/`;
+
+        // Redirect to index.html
+        window.location.href = "index.html";
+    });
+
+</script>
 
 </html>
