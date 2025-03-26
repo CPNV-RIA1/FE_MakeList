@@ -2,6 +2,12 @@
 
 const { By, Builder } = require("selenium-webdriver");
 const chrome = require("selenium-webdriver/chrome");
+const { execSync } = require("child_process");
+const { until } = require("selenium-webdriver");
+
+execSync("npx webdriver-manager update --chrome", { stdio: "inherit" });
+
+jest.setTimeout(10000);
 
 let englishDictionary = {
     greeting: "Hello, World!",
@@ -14,6 +20,26 @@ let frenchDictionary = {
 
 let driver;
 
+async function setupDriver(language, prefs = {}) {
+    let options = new chrome.Options();
+    options.addArguments(
+        `--lang=${language}`,
+        "--headless",
+        "--disable-gpu",
+        "--no-sandbox",
+        "--disable-dev-shm-usage"
+    );
+
+    if (Object.keys(prefs).length > 0) {
+        options.setUserPreferences(prefs);
+    }
+
+    driver = await new Builder()
+        .forBrowser("chrome")
+        .setChromeOptions(options)
+        .build();
+}
+
 afterEach(async () => {
     if (driver) {
         await driver.quit();
@@ -22,18 +48,15 @@ afterEach(async () => {
 
 test("homePage_NominalCase_WebAppLanguageEnglish", async () => {
     //given
-    let options = new chrome.Options();
-    options.addArguments("--lang=en-US");
-    driver = await new Builder()
-        .forBrowser("chrome")
-        .setChromeOptions(options)
-        .build();
+    await setupDriver("en-US");
+    await driver.get("http://127.0.0.1:8081/");
 
     //when
-    await driver.get("http://127.0.0.1:8081/");
-    let translatedText = await driver
-        .findElement(By.css('[data-i18n="greeting"]'))
-        .getText();
+    const greeting = await driver.wait(
+        until.elementLocated(By.css('[data-i18n="greeting"]')),
+        10000
+    );
+    let translatedText = await greeting.getText();
     let language = await driver.executeScript(
         "return navigator.language || navigator.userLanguage;"
     );
@@ -45,18 +68,15 @@ test("homePage_NominalCase_WebAppLanguageEnglish", async () => {
 
 test("homePage_NominalCase_WebAppLanguageFrench", async () => {
     //given
-    let options = new chrome.Options();
-    options.addArguments("--lang=fr-FR");
-    driver = await new Builder()
-        .forBrowser("chrome")
-        .setChromeOptions(options)
-        .build();
+    await setupDriver("fr-FR");
+    await driver.get("http://127.0.0.1:8081/");
 
     //when
-    await driver.get("http://127.0.0.1:8081/");
-    let translatedText = await driver
-        .findElement(By.css('[data-i18n="greeting"]'))
-        .getText();
+    const greeting = await driver.wait(
+        until.elementLocated(By.css('[data-i18n="greeting"]')),
+        10000
+    );
+    let translatedText = await greeting.getText();
     let language = await driver.executeScript(
         "return navigator.language || navigator.userLanguage;"
     );
@@ -68,18 +88,15 @@ test("homePage_NominalCase_WebAppLanguageFrench", async () => {
 
 test("homePage_LanguageNotSupported_WebAppDefaultLanguage", async () => {
     //given
-    let options = new chrome.Options();
-    options.addArguments("--lang=cs-CZ");
-    driver = await new Builder()
-        .forBrowser("chrome")
-        .setChromeOptions(options)
-        .build();
+    await setupDriver("cs-CZ");
+    await driver.get("http://127.0.0.1:8081/");
 
     //when
-    await driver.get("http://127.0.0.1:8081/");
-    let translatedText = await driver
-        .findElement(By.css('[data-i18n="greeting"]'))
-        .getText();
+    const greeting = await driver.wait(
+        until.elementLocated(By.css('[data-i18n="greeting"]')),
+        10000
+    );
+    let translatedText = await greeting.getText();
     let language = await driver.executeScript(
         "return navigator.language || navigator.userLanguage;"
     );
@@ -91,18 +108,15 @@ test("homePage_LanguageNotSupported_WebAppDefaultLanguage", async () => {
 
 test("homePage_LanguageNotSupported_ErrorMessagePopup", async () => {
     //given
-    let options = new chrome.Options();
-    options.addArguments("--lang=cs-CZ");
-    driver = await new Builder()
-        .forBrowser("chrome")
-        .setChromeOptions(options)
-        .build();
+    await setupDriver("cs-CZ");
+    await driver.get("http://127.0.0.1:8081/");
 
     //when
-    await driver.get("http://127.0.0.1:8081/");
-    let translatedText = await driver
-        .findElement(By.className("toastify"))
-        .getText();
+    const toast = await driver.wait(
+        until.elementLocated(By.className("toastify")),
+        10000
+    );
+    let translatedText = await toast.getText();
     let language = await driver.executeScript(
         "return navigator.language || navigator.userLanguage;"
     );
@@ -116,15 +130,10 @@ test("homePage_LanguageNotSupported_ErrorMessagePopup", async () => {
 
 test("homePage_NomincalCase_SwitchLanguageViaDropdown", async () => {
     //given
-    let options = new chrome.Options();
-    options.addArguments("--lang=en-US");
-    driver = await new Builder()
-        .forBrowser("chrome")
-        .setChromeOptions(options)
-        .build();
+    await setupDriver("en-US");
+    await driver.get("http://127.0.0.1:8081/");
 
     //when
-    await driver.get("http://127.0.0.1:8081/");
     let frenchOption = await driver.findElement(
         By.css('#change-language option[value="fr"]')
     );
@@ -143,29 +152,17 @@ test("homePage_NomincalCase_SwitchLanguageViaDropdown", async () => {
 
 test("homePage_AutoTranslate_ExcludeCertainElements", async () => {
     //given
-    let options = new chrome.Options();
-    options.addArguments("--lang=es-ES");
-    options.set("prefs", {
-        translate: {
-            enabled: true,
-        },
+    await setupDriver("es-ES", {
+        translate: { enabled: true },
         translate_whitelists: { en: "es" },
         profile: {
-            default_content_setting_values: {
-                translate: 1,
-            },
+            default_content_setting_values: { translate: 1 },
         },
     });
-
-    driver = await new Builder()
-        .forBrowser("chrome")
-        .setChromeOptions(options)
-        .build();
-
-    //when
     await driver.get("http://127.0.0.1:8081/");
     await driver.sleep(3000);
 
+    //when
     let translatedText = await driver
         .findElement(By.css('[data-i18n="greeting"]'))
         .getText();
