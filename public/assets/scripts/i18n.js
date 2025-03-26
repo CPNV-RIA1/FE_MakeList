@@ -40,11 +40,18 @@ function initI18n() {
 }
 
 function setupLanguageSwitcher() {
-    const languageDropdown = document.getElementById("change-language");
+    const languageDropdown = document.getElementById("dropdown");
+
     if (languageDropdown) {
-        languageDropdown.addEventListener("change", (event) => {
-            const selectedLanguage = event.target.value;
-            i18next.changeLanguage(selectedLanguage, updateLocale);
+        const languageOptions = languageDropdown.querySelectorAll("[data-lang]");
+
+        languageOptions.forEach((option) => {
+            option.addEventListener("click", () => {
+                const languageCode = option.getAttribute("data-lang");
+                if (languageCode) {
+                    i18next.changeLanguage(languageCode, updateLocale);
+                }
+            });
         });
     }
 
@@ -65,7 +72,7 @@ function updateLocale() {
         showToast(
             `The language '${i18next.language}' could not be initialized.`
         );
-        i18next.changeLanguage('en', updateLocale);
+        i18next.changeLanguage("en", updateLocale);
         return;
     }
 
