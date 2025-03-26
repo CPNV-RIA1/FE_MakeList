@@ -23,7 +23,7 @@ function initI18n() {
                         changeLanguageLabel: "Changer langue :",
                     },
                 },
-                jp: {
+                ja: {
                     translation: {
                         greeting: "こんにちわ世界!",
                         changeLanguageLabel: "言語の変更 :",
@@ -43,7 +43,8 @@ function setupLanguageSwitcher() {
     const languageDropdown = document.getElementById("dropdown");
 
     if (languageDropdown) {
-        const languageOptions = languageDropdown.querySelectorAll("[data-lang]");
+        const languageOptions =
+            languageDropdown.querySelectorAll("[data-lang]");
 
         languageOptions.forEach((option) => {
             option.addEventListener("click", () => {
@@ -65,7 +66,7 @@ function updateLocale() {
     const localize = locI18next.init(i18next);
     localize("body");
 
-    const supportedLanguages = ["en", "fr", "jp"];
+    const supportedLanguages = ["en", "fr", "ja"];
     const currentLang = i18next.language.split("-")[0];
 
     if (!supportedLanguages.includes(currentLang)) {
