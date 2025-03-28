@@ -52,8 +52,16 @@ pnpm run test
 
 6. Run the project:
 
+Open 2 terminals and run
+
 ```
 pnpm run dev
+```
+
+and
+
+```
+pnpm run tailwind
 ```
 
 ### On integration environment
