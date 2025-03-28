@@ -15,18 +15,72 @@ function initI18n() {
                     translation: {
                         greeting: "Hello, World!",
                         changeLanguageLabel: "Change language :",
+                        loginFormSignupLink: "Create a new account",
+                        loginFormSigninButton: "Sign In",
+                        loginFormTitle: "Log In",
+                        loginFormEmailTooltip: "Enter email",
+                        loginFormpassword: "Enter password",
+                        loginPageSubtitle: "Please log in before accessing your tierlists",
+                        logout: "Logout",
+                        login: "Login",
+                        error: {
+                            password_special: "Password need to contain at least a special character",
+                            password_digit: "Password need to contain at least a number",
+                            password_lowercase: "Password need to contain at least a lowercase letter",
+                            password_uppercase: "Password need to contain at least an uppercase letter",
+                            password_length: "Password need to at least 8 characters long",
+                            email_invalid: "Your email is invalid",
+                            login_invalid: "Your account does not exist",
+                            noAccountsFound: "No accounts found"
+                        }
                     },
                 },
                 fr: {
                     translation: {
                         greeting: "Bonjour, le Monde!",
                         changeLanguageLabel: "Changer langue :",
+                        loginFormSignupLink: "Créer un nouveau compte",
+                        loginFormSigninButton: "Se connecter",
+                        loginFormTitle: "Formulaire de connection",
+                        loginFormEmailTooltip: "e-mail",
+                        loginFormpassword: "mot de passe",
+                        loginPageSubtitle: "Merci de vous connecter avant d'accéder à vos tierlists",
+                        logout: "Déconnection",
+                        login: "Connection",
+                        error: {
+                            password_special: "Votre mot de passe doit contenir des characteres speciaux",
+                            password_digit: "Votre mot de passe doit contenir au moins 1 nombre",
+                            password_lowercase: "Votre mot de passe doit contenir au moins une lettre minuscule",
+                            password_uppercase: "Votre mot de passe doit contenir au moins une lettre majuscule",
+                            password_length: "Votre mot de passe doit faire au moins 8 characteres de long",
+                            email_invalid: "Votre email est invalide",
+                            login_invalid: "Votre compte n'existe pas",
+                            noAccountsFound: "Aucun compte trouvé"
+                        }
                     },
                 },
                 ja: {
                     translation: {
                         greeting: "こんにちわ世界!",
                         changeLanguageLabel: "言語の変更 :",
+                        loginFormSignupLink: "新しいアカウントを作成する",
+                        loginFormSigninButton: "サインイン",
+                        loginFormTitle: "ログイン",
+                        loginFormEmailTooltip: "電子メール",
+                        loginFormpassword: "パスワード",
+                        loginPageSubtitle: "ティアリストにアクセスする前にログインしてください。",
+                        logout: "切断",
+                        login: "サインイン",
+                        error: {
+                            password_special: "パスワードには特殊文字を含める必要があります。",
+                            password_digit: "パスワードには少なくとも1つの数字が含まれていなければなりません。",
+                            password_lowercase: "パスワードには、少なくとも1つの小文字を含める必要があります。",
+                            password_uppercase: "パスワードには、少なくとも1つの大文字を含める必要があります。",
+                            password_length: "パスワードは8文字以上でなければなりません",
+                            email_invalid: "電子メールが無効です",
+                            login_invalid: "アカウントが存在しない",
+                            noAccountsFound: "アカウントが見つかりません"
+                        }
                     },
                 },
             },

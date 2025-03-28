@@ -114,7 +114,7 @@ test("homePage_LanguageNotSupported_ErrorMessagePopup", async () => {
     //when
     const toast = await driver.wait(
         until.elementLocated(By.className("toastify")),
-        10000
+        5000
     );
     let translatedText = await toast.getText();
     let language = await driver.executeScript(
