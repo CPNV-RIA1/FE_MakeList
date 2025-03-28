@@ -1,6 +1,6 @@
 "use strict";
 
-async function hashPassword(password) {
+export async function hashPassword(password) {
     const encoder = new TextEncoder();
     const data = encoder.encode(password);
     const hashBuffer = await crypto.subtle.digest('SHA-256', data);
@@ -9,7 +9,7 @@ async function hashPassword(password) {
         .join('');
 }
 
-function authentication(email, password) {
+export function authentication(email, password) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     let errorMessages = [];
 
@@ -29,5 +29,3 @@ function authentication(email, password) {
 
     return errorMessages;
 }
-
-export { authentication, hashPassword };

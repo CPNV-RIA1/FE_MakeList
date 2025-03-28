@@ -1,6 +1,16 @@
 "use strict";
 
-const { authenticate } = require("../../public/assets/scripts/authentication");
+import { authentication } from "../../public/assets/scripts/authentication";
+
+const mockErrorMessages = [
+    { i18n: "error.email_invalid" },
+    { i18n: "error.password_length" },
+    { i18n: "error.password_uppercase" },
+    { i18n: "error.password_lowercase" },
+    { i18n: "error.password_digit" },
+    { i18n: "error.password_special" },
+    { i18n: "error.no_account_found" },
+];
 
 test("authentication_MissingValue_ThrowsErrorEmailOrPasswordMissing", async () => {
     // given
@@ -8,15 +18,21 @@ test("authentication_MissingValue_ThrowsErrorEmailOrPasswordMissing", async () =
     const password = "ValidPass123!";
 
     // when
-    const firstAuthenticate = await authenticate("", password);
-    const secondAuthenticate = await authenticate(email, "");
+    const firstAuthenticate = await authentication("", password);
+    const secondAuthenticate = await authentication(email, "");
 
     // then
-    await expect(firstAuthenticate).rejects.toThrow(
-        "Email and password are required"
+    expect(firstAuthenticate).toEqual(
+        expect.arrayContaining([mockErrorMessages[0]])
     );
-    await expect(secondAuthenticate).rejects.toThrow(
-        "Email and password are required"
+    expect(secondAuthenticate).toEqual(
+        expect.arrayContaining([
+            mockErrorMessages[1],
+            mockErrorMessages[2],
+            mockErrorMessages[3],
+            mockErrorMessages[4],
+            mockErrorMessages[5],
+        ])
     );
 });
 
@@ -25,12 +41,16 @@ test("authentication_InvalidMailFormat_ThrowsErrorEmailIsInvalid", async () => {
     const validPassword = "ValidPass123!";
 
     // when
-    const firstAuthenticate = authenticate("invalid-email", validPassword);
-    const secondAuthenticate = authenticate("user@.com", validPassword);
+    const firstAuthenticate = authentication("invalid-email", validPassword);
+    const secondAuthenticate = authentication("user@.com", validPassword);
 
     // then
-    await expect(firstAuthenticate).rejects.toThrow("Invalid email format");
-    await expect(secondAuthenticate).rejects.toThrow("Invalid email format");
+    expect(firstAuthenticate).toEqual(
+        expect.arrayContaining([mockErrorMessages[0]])
+    );
+    expect(secondAuthenticate).toEqual(
+        expect.arrayContaining([mockErrorMessages[0]])
+    );
 });
 
 test("authentication_InvalidPasswordFormat_ThrowsErrorPasswordDoesNotMeetRequirements", async () => {
@@ -38,15 +58,15 @@ test("authentication_InvalidPasswordFormat_ThrowsErrorPasswordDoesNotMeetRequire
     const email = "user@example.com";
 
     // when
-    const firstAuthenticate = authenticate(email, "short");
-    const secondAuthenticate = authenticate(email, "NoSpecialChar123");
+    const firstAuthenticate = authentication(email, "short");
+    const secondAuthenticate = authentication(email, "NoSpecialChar123");
 
     // then
-    await expect(firstAuthenticate).rejects.toThrow(
-        "Password must be at least 8 characters long and include a number and special character"
+    expect(firstAuthenticate).toEqual(
+        expect.arrayContaining([mockErrorMessages[1]])
     );
-    await expect(secondAuthenticate).rejects.toThrow(
-        "Password must be at least 8 characters long and include a number and special character"
+    expect(secondAuthenticate).toEqual(
+        expect.arrayContaining([mockErrorMessages[5]])
     );
 });
 
@@ -56,11 +76,10 @@ test("authentication_NominalCase_UserIsAuthenticated", async () => {
     const password = "ValidPass123!";
 
     // when
-    const result = await authenticate(email, password);
+    const result = await authentication(email, password);
 
     // then
-    expect(result.success).toBe(true);
-    expect(result.email).toBe(email);
+    expect(result).toEqual([]);
 });
 
 test("authentication_IncorrectLogin_AuthenticationFails", async () => {
@@ -69,9 +88,8 @@ test("authentication_IncorrectLogin_AuthenticationFails", async () => {
     const password = "InvalidPass123!";
 
     // when
-    const result = await authenticate(email, password);
+    const result = await authentication(email, password);
 
     // then
-    expect(result.success).toBe(false);
-    expect(result.message).toBe("Authentication failed");
+    expect(result).toEqual(expect.arrayContaining([mockErrorMessages[6]]));
 });
