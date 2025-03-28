@@ -33,7 +33,7 @@ document.getElementById("loginBtn").addEventListener("click", function (event) {
                     const expiryDate = new Date();
                     expiryDate.setDate(expiryDate.getDate() + 7);
                     document.cookie = `userEmail=${encodeURIComponent(email)}; expires=${expiryDate.toUTCString()}; path=/`;
-                    window.location.href = "/";
+                    window.location.href = "./index.html";
                 } else {
                     const li = document.createElement("li");
                     li.setAttribute("data-i18n", "error.login_invalid");
