@@ -44,6 +44,6 @@ jobs:
         with:
           chrome-version: 'latest'
           install-chromedriver: true
-
+      
       - name: Run tests
-        run: pnpm run test
+        run: pnpm run dev-test
