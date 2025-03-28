@@ -28,6 +28,8 @@ function initI18n() {
                             password_uppercase: "Password need to contain at least an uppercase letter",
                             password_length: "Password need to at least 8 characters long",
                             email_invalid: "Your email is invalid",
+                            login_invalid: "Your account does not exist",
+                            noAccountsFound: "No accounts found"
                         }
                     },
                 },
@@ -48,6 +50,8 @@ function initI18n() {
                             password_uppercase: "Votre mot de passe doit contenir au moins une lettre majuscule",
                             password_length: "Votre mot de passe doit faire au moins 8 characteres de long",
                             email_invalid: "Votre email est invalide",
+                            login_invalid: "Votre compte n'existe pas",
+                            noAccountsFound: "Aucun compte trouvé"
                         }
                     },
                 },
@@ -68,6 +72,8 @@ function initI18n() {
                             password_uppercase: "パスワードには、少なくとも1つの大文字を含める必要があります。",
                             password_length: "パスワードは8文字以上でなければなりません",
                             email_invalid: "電子メールが無効です",
+                            login_invalid: "アカウントが存在しない",
+                            noAccountsFound: "アカウントが見つかりません"
                         }
                     },
                 },

@@ -1,12 +1,24 @@
 "use strict";
 
-document.getElementById("loginBtn").addEventListener("click", function () {
+async function hashPassword(password) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(hashBuffer))
+        .map((b) => b.toString(16).padStart(2, '0'))
+        .join('');
+}
+
+
+document.getElementById("loginBtn").addEventListener("click", function (event) {
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
     const message = document.getElementById("message");
     const ul = document.getElementById("errors");
 
     ul.innerHTML = ""; //remove all error childs
+
+    event.preventDefault();
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -36,14 +48,28 @@ document.getElementById("loginBtn").addEventListener("click", function () {
         return;
     }
 
-    message.textContent = "Login successful!";
-
-    const expiryDate = new Date();
-    expiryDate.setDate(expiryDate.getDate() + 7);
-    document.cookie = `userEmail=${encodeURIComponent(
-        email
-    )}; expires=${expiryDate.toUTCString()}; path=/`;
-
-    // Redirect to index.html
-    window.location.href = "/";
+    hashPassword(password).then((hashedPassword) => {
+        fetch("assets/accounts.json")
+            .then((res) => res.json())
+            .then((accounts) => {
+                const user = accounts.find(acc => acc.email === email && acc.passwordHash === hashedPassword);
+                if (user) {
+                    const expiryDate = new Date();
+                    expiryDate.setDate(expiryDate.getDate() + 7);
+                    document.cookie = `userEmail=${encodeURIComponent(email)}; expires=${expiryDate.toUTCString()}; path=/`;
+                    window.location.href = "/";
+                } else {
+                    const li = document.createElement("li");
+                    li.setAttribute("data-i18n", "error.login_invalid");
+                    ul.appendChild(li);
+                    updateLocale();
+                }
+            })
+            .catch((error) => {
+                console.error("Error loading accounts:", error);
+                const li = document.createElement("li");
+                li.setAttribute("data-i18n", "noAccountsFound");
+                ul.appendChild(li);
+            });
+    });
 });
