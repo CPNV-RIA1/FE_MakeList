@@ -21,6 +21,8 @@ function initI18n() {
                         loginFormEmailTooltip: "Enter email",
                         loginFormpassword: "Enter password",
                         loginPageSubtitle: "Please log in before accessing your tierlists",
+                        logout: "Logout",
+                        login: "Login",
                         error: {
                             password_special: "Password need to contain at least a special character",
                             password_digit: "Password need to contain at least a number",
@@ -43,6 +45,8 @@ function initI18n() {
                         loginFormEmailTooltip: "e-mail",
                         loginFormpassword: "mot de passe",
                         loginPageSubtitle: "Merci de vous connecter avant d'accéder à vos tierlists",
+                        logout: "Déconnection",
+                        login: "Connection",
                         error: {
                             password_special: "Votre mot de passe doit contenir des characteres speciaux",
                             password_digit: "Votre mot de passe doit contenir au moins 1 nombre",
@@ -65,6 +69,8 @@ function initI18n() {
                         loginFormEmailTooltip: "電子メール",
                         loginFormpassword: "パスワード",
                         loginPageSubtitle: "ティアリストにアクセスする前にログインしてください。",
+                        logout: "切断",
+                        login: "サインイン",
                         error: {
                             password_special: "パスワードには特殊文字を含める必要があります。",
                             password_digit: "パスワードには少なくとも1つの数字が含まれていなければなりません。",
